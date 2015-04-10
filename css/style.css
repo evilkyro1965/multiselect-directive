@@ -1,0 +1,24 @@
+.multiselect {
+	height:32px;
+	line-height:32px;
+	border:1px #dbdbdb solid;
+	position:relative;
+}
+	.choiceBox {
+		position:absolute;
+		border:thin red solid;
+		top:32px;
+		width:100%;
+	}
+	.choiceBox a {
+		height:32px;
+		line-height:32px;
+		padding:0px 10px;
+		display:block;
+		color:black;
+		border:1px blue solid;
+		cursor:pointer;
+	}
+	.choiceBox a:hover {
+		text-decoration: none;
+	}
