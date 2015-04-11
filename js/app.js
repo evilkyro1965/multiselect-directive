@@ -6,6 +6,7 @@ mainApp.controller("mainController", function($scope){
 		{'id':'1','name':'fahrur'},
 		{'id':'2','name':'razi'}
 	];
+    $scope.selected = new Array();
 
 });
 
@@ -13,27 +14,29 @@ mainApp.directive('multiselect', function () {
     return {
         scope : {
             data : "=data",
+            selected : "=selected",
             label : "@label"
         },   
-        //templateUrl : "template/multiselect.html",
-        template: '<div class="multiselect">'+
-	'<div class="selectedBox">'+
-
-	'</div>'+
-	'<div class="choiceBox">'+
-		//'<a href="javascript:;" ng-repeat="row in data">{{row[label]}}</a>'+
-	'</div>'+
-'</div>',
+        templateUrl : "template/multiselect.html",
         link: function (scope, element, attrs) {
-        	var div = angular.element(element.children()[0]);
-        	var selectedBox = angular.element(div.children()[0]);
-        	var selectedBox2 = angular.element(element.find(".selectedBox"));
-        	//selectedBox.html("test");
-        	selectedBox2.html("test");
-        },
-        controller: function ($scope, $element, $attrs) {
-		},
-		transclude: true
-    };x
+            var choiceBox = angular.element(element[0].querySelector('.choiceBox'));
+            var selectedBox = angular.element(element[0].querySelector('.selectedBox'));
+            for(var i=0;i<scope.data.length;i++) {
+                choiceBox.append("<a dataindex='"+i+"''>"+scope.data[i][scope.label]+"</a>");
+            }
+            choiceBox.find("a").on('click',function(event){
+                var dataIndex = $(this).attr("dataindex");
+                var findIndex = scope.selected.indexOf(dataIndex);
+                if(findIndex==-1) {
+                    var label = scope.data[dataIndex][scope.label];
+                    scope.selected.push(dataIndex);
+                    scope.$apply(function () {
+                        console.log(scope.selected);
+                        selectedBox.append("<a dataindex='"+dataIndex+"''>"+label+"</a>");
+                    });
+                }
+            });
+        }
+    };
 });
 
